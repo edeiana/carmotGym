@@ -1,0 +1,14 @@
+#!/bin/bash -e
+
+THIS_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" ;
+CARMOT_HOME="${THIS_PATH}/.." ;
+
+prefixString="### CARMOT Gym: Minimal ###" ;
+echo "${prefixString}" ;
+
+${CARMOT_HOME}/bin/carmot_setup ;
+${CARMOT_HOME}/bin/carmot_fig6_minimal ;
+${CARMOT_HOME}/bin/carmot_fig7_minimal ;
+${CARMOT_HOME}/bin/carmot_fig10_minimal ;
+${CARMOT_HOME}/bin/carmot_fig11_minimal ;
+

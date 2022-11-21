@@ -1,0 +1,34 @@
+#!/bin/bash -e
+
+THIS_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" ;
+CARMOT_HOME="${THIS_PATH}/.." ;
+
+prefixString="### CARMOT Gym: Setup ###" ;
+echo "${prefixString}" ;
+
+# Cloining carmot repo
+cd ${CARMOT_HOME} ;
+echo "${prefixString} Cloning carmot repo" ;
+carmotDir="carmot" ;
+if ! test -d ${carmotDir} ; then
+  git clone https://github.com/edeiana/carmot.git ${carmotDir} ;
+fi
+ 
+# Download the git repository
+cd ${CARMOT_HOME} ;
+echo "${prefixString} Cloning benchmark suite repos" ;
+allSuitesDir="all_benchmark_suites" ;
+if ! test -d ${allSuitesDir} ; then
+  mkdir -p ${CARMOT_HOME}/${allSuitesDir} ;
+  cd ${CARMOT_HOME}/${allSuitesDir} ;
+  git clone https://github.com/edeiana/wholeprogram_benchmarks.git baseline_speedup --branch baseline_speedup ;
+  git clone https://github.com/edeiana/wholeprogram_benchmarks.git carmot_omp_speedup --branch carmot_omp_speedup ;
+  git clone https://github.com/edeiana/wholeprogram_benchmarks.git orig_omp_speedup --branch orig_omp_speedup ;
+  git clone https://github.com/edeiana/wholeprogram_benchmarks.git orig_pthread_speedup --branch orig_pthread_speedup ;
+
+  git clone https://github.com/edeiana/wholeprogram_benchmarks.git baseline_overhead --branch baseline_overhead ;
+  git clone https://github.com/edeiana/wholeprogram_benchmarks.git carmot_omp_overhead --branch carmot_omp_overhead ;
+  git clone https://github.com/edeiana/wholeprogram_benchmarks.git carmot_sp_overhead --branch carmot_sp_overhead ;
+  git clone https://github.com/edeiana/wholeprogram_benchmarks.git carmot_stats_overhead --branch carmot_stats_overhead ;
+fi
+

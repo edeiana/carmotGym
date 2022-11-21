@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# Check number of inputs
+numOfInputs=3 ;
+if test $# -lt ${numOfInputs} ; then
+  echo "USAGE: $ ./`basename $0` pathToSerialDir pathToParallelDir pathToSpeedupOutputFile" ;
+  exit 1 ;
+fi
+
+# Get inputs
+baseline_dir="${1}" ;
+times_dir="${2}" ;
+output_file="${3}" ;
+
+if ! test -e ${baseline_dir} ; then
+  echo "WARNING: ${baseline_dir} not found." ;
+  exit 0 ;
+fi
+
+if ! test -e ${times_dir} ; then
+  echo "WARNING: ${times_dir} not found." ;
+  exit 0 ;
+fi
+
+rm -f ${output_file} ;
+mkdir -p `dirname ${output_file}` ;
+
+for elemTmp in `ls ${baseline_dir}/times_*.txt` ; do
+  elem=`basename ${elemTmp}` ;
+  benchmark_name=`echo ${elem} | python3 -c 'from sys import stdin; import numpy as np; nums = [str(i) for i in stdin.read().split()]; print(nums[0].split("_", 1)[-1][:-4])'` ;
+
+  baseline_file="${baseline_dir}/${elem}" ;
+  baseline_median=`cat ${baseline_file} | python3 -c 'from sys import stdin; import numpy as np; nums = [float(i) for i in stdin.read().split()]; print(np.median(nums))'` ;
+
+  times_file="${times_dir}/${elem}" ;
+  if ! test -f ${times_file} ; then
+    echo "WARNING: ${times_file} not found. Setting speedup to 0x." ;
+    speedup="0.0" ;
+  else
+    times_median=`cat ${times_file} | python3 -c 'from sys import stdin; import numpy as np; nums = [float(i) for i in stdin.read().split()]; print(np.median(nums))'` ;
+    speedup=`echo "scale=3 ; ${baseline_median}/${times_median}" | bc` ;
+  fi
+
+  output_string="${benchmark_name} ${speedup}" ;
+  echo "${output_string}" >> ${output_file} ;
+
+  echo "${output_string}" ;
+done
+
+geomean=`cat ${output_file} | awk '{print $2}' | python3 -c 'from sys import stdin; from scipy.stats.mstats import gmean; nums = [float(i) for i in stdin.read().split()]; print(gmean(nums))'` ;
+echo "geo. mean ${geomean}" ;

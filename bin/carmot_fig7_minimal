@@ -1,0 +1,57 @@
+#!/bin/bash -e
+
+THIS_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" ;
+CARMOT_HOME="${THIS_PATH}/.." ;
+
+function compileAndRun {
+  pushd . ;
+  cd ${1} ;
+  make ;
+  ./compile NAS ;
+  ./compile PARSEC3 ;
+  ./run NAS ${1} all; 
+  ./run PARSEC3 ${1} all; 
+  popd ;
+}
+
+function compileAndRunCARMOT {
+  pushd . ;
+  cd ${1} ;
+  make ;
+  source setup.sh ${CARMOT_HOME}/carmot ;
+  ./compile NAS ;
+  ./compile PARSEC3 ;
+  ./optimize NAS memorytool-all all ;
+  ./optimize PARSEC3 memorytool-all blackscholes ;
+  ./optimize PARSEC3 memorytool-all canneal ;
+  ./optimize PARSEC3 memorytool-all freqmine ;
+  #./optimize PARSEC3 memorytool-all swaptions ;
+  ./run NAS ${1} all ;
+  ./run PARSEC3 ${1} blackscholes ;
+  ./run PARSEC3 ${1} canneal ;
+  ./run PARSEC3 ${1} freqmine ;
+  #./run PARSEC3 ${1} swaptions ;
+  popd ;
+}
+
+prefixString="### CARMOT Gym: Fig7 MINIMAL ###" ;
+echo "${prefixString}" ;
+
+cd ${CARMOT_HOME}/carmot ;
+source clean.sh ;
+source setup.sh ;
+source setup_env.sh ;
+./globalCompile.sh ;
+
+allSuitesDir="all_benchmark_suites" ;
+cd ${CARMOT_HOME}/${allSuitesDir} ;
+
+compileAndRun "baseline_overhead" ;
+compileAndRunCARMOT "carmot_omp_overhead" ;
+
+# Copy results
+machine="`uname -n`"
+
+./carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_omp_overhead/build/NAS/${machine}/carmot_omp_overhead ${CARMOT_HOME}/${allSuitesDir}/baseline_overhead/build/NAS/${machine}/baseline_overhead ${CARMOT_HOME}/results/current_machine/fig7/carmot/NAS/overhead.txt ;
+./carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_omp_overhead/build/PARSEC3/${machine}/carmot_omp_overhead ${CARMOT_HOME}/${allSuitesDir}/baseline_overhead/build/PARSEC3/${machine}/baseline_overhead ${CARMOT_HOME}/results/current_machine/fig7/carmot/PARSEC3/overhead.txt ;
+

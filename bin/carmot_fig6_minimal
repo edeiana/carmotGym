@@ -1,0 +1,37 @@
+#!/bin/bash -e
+
+THIS_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" ;
+CARMOT_HOME="${THIS_PATH}/.." ;
+
+function compileAndRun {
+  pushd . ;
+  cd ${1} ;
+  make ;
+  ./compile NAS ;
+  ./compile PARSEC3 ;
+  ./run NAS ${1} all; 
+  ./run PARSEC3 ${1} all; 
+  popd ;
+}
+
+prefixString="### CARMOT Gym: Fig6 MINIMAL ###" ;
+echo "${prefixString}" ;
+
+allSuitesDir="all_benchmark_suites" ;
+cd ${CARMOT_HOME}/${allSuitesDir} ;
+
+compileAndRun "baseline_speedup" ;
+compileAndRun "carmot_omp_speedup" ;
+compileAndRun "orig_omp_speedup" ;
+compileAndRun "orig_pthread_speedup" ;
+
+# Copy results
+machine="`uname -n`"
+
+./carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/baseline_speedup/build/NAS/${machine}/baseline_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_omp_speedup/build/NAS/${machine}/carmot_omp_speedup ${CARMOT_HOME}/results/current_machine/fig6/carmot/NAS/speedup.txt ;
+./carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/baseline_speedup/build/PARSEC3/${machine}/baseline_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_omp_speedup/build/PARSEC3/${machine}/carmot_omp_speedup ${CARMOT_HOME}/results/current_machine/fig6/carmot/PARSEC/speedup.txt ;
+
+./carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/baseline_speedup/build/NAS/${machine}/baseline_speedup ${CARMOT_HOME}/${allSuitesDir}/orig_omp_speedup/build/NAS/${machine}/orig_omp_speedup ${CARMOT_HOME}/results/current_machine/fig6/original_parallelism/NAS/speedup.txt ;
+./carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/baseline_speedup/build/PARSEC3/${machine}/baseline_speedup ${CARMOT_HOME}/${allSuitesDir}/orig_omp_speedup/build/PARSEC3/${machine}/orig_omp_speedup ${CARMOT_HOME}/results/current_machine/fig6/original_parallelism/PARSEC3/speedup_omp.txt ;
+./carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/baseline_speedup/build/PARSEC3/${machine}/baseline_speedup ${CARMOT_HOME}/${allSuitesDir}/orig_pthread_speedup/build/PARSEC3/${machine}/orig_pthread_speedup ${CARMOT_HOME}/results/current_machine/fig6/original_parallelism/PARSEC3/speedup_pthread.txt ;
+
