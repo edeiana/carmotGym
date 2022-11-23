@@ -1,0 +1,13 @@
+#!/bin/bash -e
+
+THIS_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" ;
+CARMOT_HOME="${THIS_PATH}/.." ;
+
+prefixString="### CARMOT Gym: Clean ###" ;
+echo "${prefixString}" ;
+
+rm -rf ${CARMOT_HOME}/carmot ;
+rm -rf ${CARMOT_HOME}/carmotGym ;
+rm -rf ${CARMOT_HOME}/all_benchmark_suites ;
+rm -rf ${CARMOT_HOME}/results/current_machine ;
+

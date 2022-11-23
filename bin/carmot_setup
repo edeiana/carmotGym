@@ -6,6 +6,24 @@ CARMOT_HOME="${THIS_PATH}/.." ;
 prefixString="### CARMOT Gym: Setup ###" ;
 echo "${prefixString}" ;
 
+# Copy updated scripts, so we don't have to regenerate the docker image every time something is updated
+cd ${CARMOT_HOME} ;
+echo "${prefixString} Update" ;
+carmotGymDir="carmotGym" ;
+if ! test -d ${carmotGymDir} ; then
+  git clone https://github.com/edeiana/carmotGym.git ${carmotGymDir} ;
+  cp ${carmotGymDir}/LICENSE . ;
+  cp ${carmotGymDir}/README.md . ;
+  cp ${carmotGymDir}/benchmarkSuites/README ./benchmarkSuites/ ;
+  cp ${carmotGymDir}/results/README ./results/ ;
+  cp ${carmotGymDir}/results/authors_machine ./results/ ;
+  cp ${carmotGymDir}/bin/carmot_fig* ./bin/ ;
+  cp ${carmotGymDir}/bin/carmot_compute_speedup ./bin/ ;
+  cp ${carmotGymDir}/bin/carmot_minimal ./bin/ ;
+  cp ${carmotGymDir}/bin/carmot_full ./bin/ ;
+  cp ${carmotGymDir}/bin/carmot_clean ./bin/ ;
+fi
+
 # Cloining carmot repo
 cd ${CARMOT_HOME} ;
 echo "${prefixString} Cloning carmot repo" ;
