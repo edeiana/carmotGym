@@ -25,7 +25,7 @@ function compileAndRunCARMOT {
     ./optimize SPEC2017 memorytool-referencecycles all ;
   fi
   ./optimize PARSEC3 memorytool-referencecycles blackscholes ;
-  ./optimize PARSEC3 memorytool-referencecycles canneal ;
+  ./optimize PARSEC3 memorytool-all canneal ;
   ./optimize PARSEC3 memorytool-referencecycles fluidanimate ;
   ./optimize PARSEC3 memorytool-referencecycles streamcluster ;
   pushd . ;
