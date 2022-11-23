@@ -40,20 +40,21 @@ compileAndRun "orig_omp_speedup" ;
 compileAndRun "orig_pthread_speedup" ;
 
 # Copy results
+cd ${CARMOT_HOME} ;
 machine="`uname -n`"
 
 # Compute original speedup
-./carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/baseline_speedup/build/NAS/${machine}/baseline_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_omp_speedup/build/NAS/${machine}/carmot_omp_speedup ${CARMOT_HOME}/results/current_machine/fig6/carmot/NAS/speedup.txt ;
-./carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/baseline_speedup/build/PARSEC3/${machine}/baseline_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_omp_speedup/build/PARSEC3/${machine}/carmot_omp_speedup ${CARMOT_HOME}/results/current_machine/fig6/carmot/PARSEC3/speedup.txt ;
+./bin/carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/baseline_speedup/build/NAS/${machine}/baseline_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_omp_speedup/build/NAS/${machine}/carmot_omp_speedup ${CARMOT_HOME}/results/current_machine/fig6/carmot/NAS/speedup.txt ;
+./bin/carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/baseline_speedup/build/PARSEC3/${machine}/baseline_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_omp_speedup/build/PARSEC3/${machine}/carmot_omp_speedup ${CARMOT_HOME}/results/current_machine/fig6/carmot/PARSEC3/speedup.txt ;
 if [ ${runSPEC} == "1" ] ; then
-  ./carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/baseline_speedup/build/SPEC2017/${machine}/baseline_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_omp_speedup/build/SPEC2017/${machine}/carmot_omp_speedup ${CARMOT_HOME}/results/current_machine/fig6/carmot/SPEC2017/speedup.txt ;
+  ./bin/carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/baseline_speedup/build/SPEC2017/${machine}/baseline_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_omp_speedup/build/SPEC2017/${machine}/carmot_omp_speedup ${CARMOT_HOME}/results/current_machine/fig6/carmot/SPEC2017/speedup.txt ;
 fi
 
 # Compute carmot speedup
-./carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/baseline_speedup/build/NAS/${machine}/baseline_speedup ${CARMOT_HOME}/${allSuitesDir}/orig_omp_speedup/build/NAS/${machine}/orig_omp_speedup ${CARMOT_HOME}/results/current_machine/fig6/original_parallelism/NAS/speedup.txt ;
-./carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/baseline_speedup/build/PARSEC3/${machine}/baseline_speedup ${CARMOT_HOME}/${allSuitesDir}/orig_omp_speedup/build/PARSEC3/${machine}/orig_omp_speedup ${CARMOT_HOME}/results/current_machine/fig6/original_parallelism/PARSEC3/speedup.txt ;
-./carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/baseline_speedup/build/PARSEC3/${machine}/baseline_speedup ${CARMOT_HOME}/${allSuitesDir}/orig_pthread_speedup/build/PARSEC3/${machine}/orig_pthread_speedup ${CARMOT_HOME}/results/current_machine/fig6/original_parallelism/PARSEC3/speedup_pthread.txt ;
+./bin/carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/baseline_speedup/build/NAS/${machine}/baseline_speedup ${CARMOT_HOME}/${allSuitesDir}/orig_omp_speedup/build/NAS/${machine}/orig_omp_speedup ${CARMOT_HOME}/results/current_machine/fig6/original_parallelism/NAS/speedup.txt ;
+./bin/carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/baseline_speedup/build/PARSEC3/${machine}/baseline_speedup ${CARMOT_HOME}/${allSuitesDir}/orig_omp_speedup/build/PARSEC3/${machine}/orig_omp_speedup ${CARMOT_HOME}/results/current_machine/fig6/original_parallelism/PARSEC3/speedup.txt ;
+./bin/carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/baseline_speedup/build/PARSEC3/${machine}/baseline_speedup ${CARMOT_HOME}/${allSuitesDir}/orig_pthread_speedup/build/PARSEC3/${machine}/orig_pthread_speedup ${CARMOT_HOME}/results/current_machine/fig6/original_parallelism/PARSEC3/speedup_pthread.txt ;
 if [ ${runSPEC} == "1" ] ; then
-  ./carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/baseline_speedup/build/SPEC2017/${machine}/baseline_speedup ${CARMOT_HOME}/${allSuitesDir}/orig_omp_speedup/build/SPEC2017/${machine}/orig_omp_speedup ${CARMOT_HOME}/results/current_machine/fig6/original_parallelism/SPEC2017/speedup.txt ;
+  ./bin/carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/baseline_speedup/build/SPEC2017/${machine}/baseline_speedup ${CARMOT_HOME}/${allSuitesDir}/orig_omp_speedup/build/SPEC2017/${machine}/orig_omp_speedup ${CARMOT_HOME}/results/current_machine/fig6/original_parallelism/SPEC2017/speedup.txt ;
 fi
 

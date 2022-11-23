@@ -13,27 +13,13 @@ function compileAndRunCARMOT {
 
   ./compile PARSEC3 ;
 
-  pushd . ;
-  cd ${CARMOT_HOME}/carmot ;
-  ./globalCompile_disable_directstate.sh ;
-  ./memorytool_patch/mem2reg_enable.sh
-  popd ;
-  ./optimize PARSEC3 memorytool-stats bodytrack ;
-  pushd . ;
-  cd ${CARMOT_HOME}/carmot ;
-  ./memorytool_patch/mem2reg_disable.sh
-  popd ;
-  ./optimize PARSEC3 memorytool-stats fluidanimate ;
+  #./optimize PARSEC3 memorytool-stats bodytrack ;
+  #./optimize PARSEC3 memorytool-stats fluidanimate ;
   ./optimize PARSEC3 memorytool-stats streamcluster ;
-
-  pushd . ;
-  cd ${CARMOT_HOME}/carmot ;
-  ./globalCompile_disable_directstate.sh ;
-  popd ;
   ./optimize PARSEC3 memorytool-stats swaptions ;
  
-  ./run PARSEC3 ${1}_${suffix} bodytrack ;
-  ./run PARSEC3 ${1}_${suffix} fluidanimate ;
+  #./run PARSEC3 ${1}_${suffix} bodytrack ;
+  #./run PARSEC3 ${1}_${suffix} fluidanimate ;
   ./run PARSEC3 ${1}_${suffix} streamcluster ;
   ./run PARSEC3 ${1}_${suffix} swaptions ;
 
@@ -54,7 +40,8 @@ cd ${CARMOT_HOME}/${allSuitesDir} ;
 compileAndRunCARMOT "carmot_stats_overhead" ;
 
 # Copy results
+cd ${CARMOT_HOME} ;
 machine="`uname -n`" ;
 resultFile="overhead_blackbars.txt" ;
-./carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_stats_overhead/build/PARSEC3/${machine}/carmot_stats_overhead_${suffix} ${CARMOT_HOME}/${allSuitesDir}/baseline_overhead/build/PARSEC3/${machine}/baseline_overhead ${CARMOT_HOME}/results/current_machine/fig11/carmot/PARSEC3/${resultFile} ;
+./bin/carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_stats_overhead/build/PARSEC3/${machine}/carmot_stats_overhead_${suffix} ${CARMOT_HOME}/${allSuitesDir}/baseline_overhead/build/PARSEC3/${machine}/baseline_overhead ${CARMOT_HOME}/results/current_machine/fig11/carmot/PARSEC3/${resultFile} ;
 

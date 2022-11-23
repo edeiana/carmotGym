@@ -61,12 +61,13 @@ cd ${CARMOT_HOME}/${allSuitesDir} ;
 compileAndRunCARMOT "carmot_sp_overhead" ;
 
 # Copy results
+cd ${CARMOT_HOME} ;
 machine="`uname -n`" ;
 resultFile="overhead_redbars.txt" ;
-./carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_sp_overhead/build/NAS/${machine}/carmot_sp_overhead ${CARMOT_HOME}/${allSuitesDir}/baseline_overhead/build/NAS/${machine}/baseline_overhead ${CARMOT_HOME}/results/current_machine/fig10/carmot/NAS/${resultFile} ;
-./carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_sp_overhead/build/PARSEC3/${machine}/carmot_sp_overhead ${CARMOT_HOME}/${allSuitesDir}/baseline_overhead/build/PARSEC3/${machine}/baseline_overhead ${CARMOT_HOME}/results/current_machine/fig10/carmot/PARSEC3/${resultFile} ;
+./bin/carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_sp_overhead/build/NAS/${machine}/carmot_sp_overhead ${CARMOT_HOME}/${allSuitesDir}/baseline_overhead/build/NAS/${machine}/baseline_overhead ${CARMOT_HOME}/results/current_machine/fig10/carmot/NAS/${resultFile} ;
+./bin/carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_sp_overhead/build/PARSEC3/${machine}/carmot_sp_overhead ${CARMOT_HOME}/${allSuitesDir}/baseline_overhead/build/PARSEC3/${machine}/baseline_overhead ${CARMOT_HOME}/results/current_machine/fig10/carmot/PARSEC3/${resultFile} ;
 
 if [ ${runSPEC} == "1" ] ; then
-  ./carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_sp_overhead/build/SPEC2017/${machine}/carmot_sp_overhead ${CARMOT_HOME}/${allSuitesDir}/baseline_overhead/build/SPEC2017/${machine}/baseline_overhead ${CARMOT_HOME}/results/current_machine/fig10/carmot/SPEC2017/${resultFile} ;
+  ./bin/carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_sp_overhead/build/SPEC2017/${machine}/carmot_sp_overhead ${CARMOT_HOME}/${allSuitesDir}/baseline_overhead/build/SPEC2017/${machine}/baseline_overhead ${CARMOT_HOME}/results/current_machine/fig10/carmot/SPEC2017/${resultFile} ;
 fi
 

@@ -25,20 +25,20 @@ function compileAndRunCARMOT {
 
   ./optimize NAS memorytool-all all ;
   if [ ${runSPEC} == "1" ] ; then
-    ./optimize SPEC2017 memorytool-all all ;
+    ./optimize SPEC2017 memorytool-all nab_s ;
   fi
   ./optimize PARSEC3 memorytool-all blackscholes ;
-  ./optimize PARSEC3 memorytool-all canneal ;
+  #./optimize PARSEC3 memorytool-all canneal ;
   ./optimize PARSEC3 memorytool-all freqmine ;
   ./optimize PARSEC3 memorytool-all swaptions ;
 
   ./run NAS ${1}_${suffix} all ; 
   ./run PARSEC3 ${1}_${suffix} blackscholes ;
-  ./run PARSEC3 ${1}_${suffix} canneal ;
+  #./run PARSEC3 ${1}_${suffix} canneal ;
   ./run PARSEC3 ${1}_${suffix} freqmine ;
   ./run PARSEC3 ${1}_${suffix} swaptions ;
   if [ ${runSPEC} == "1" ] ; then
-    ./run SPEC2017 ${1}_${suffix} all ;
+    ./run SPEC2017 ${1}_${suffix} nab_s ;
   fi
 
   popd ;
@@ -58,11 +58,12 @@ cd ${CARMOT_HOME}/${allSuitesDir} ;
 compileAndRunCARMOT "carmot_omp_overhead" ;
 
 # Copy results
+cd ${CARMOT_HOME} ;
 machine="`uname -n`"
 resultFile="overhead_blackbars.txt" ;
-./carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_omp_overhead/build/NAS/${machine}/carmot_omp_overhead_${suffix} ${CARMOT_HOME}/${allSuitesDir}/baseline_overhead/build/NAS/${machine}/baseline_overhead ${CARMOT_HOME}/results/current_machine/fig7/carmot/NAS/${resultFile} ;
-./carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_omp_overhead/build/PARSEC3/${machine}/carmot_omp_overhead_${suffix} ${CARMOT_HOME}/${allSuitesDir}/baseline_overhead/build/PARSEC3/${machine}/baseline_overhead ${CARMOT_HOME}/results/current_machine/fig7/carmot/PARSEC3/${resultFile} ;
+./bin/carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_omp_overhead/build/NAS/${machine}/carmot_omp_overhead_${suffix} ${CARMOT_HOME}/${allSuitesDir}/baseline_overhead/build/NAS/${machine}/baseline_overhead ${CARMOT_HOME}/results/current_machine/fig7/carmot/NAS/${resultFile} ;
+./bin/carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_omp_overhead/build/PARSEC3/${machine}/carmot_omp_overhead_${suffix} ${CARMOT_HOME}/${allSuitesDir}/baseline_overhead/build/PARSEC3/${machine}/baseline_overhead ${CARMOT_HOME}/results/current_machine/fig7/carmot/PARSEC3/${resultFile} ;
 if [ ${runSPEC} == "1" ] ; then
-  ./carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_omp_overhead/build/SPEC2017/${machine}/carmot_omp_overhead_${suffix} ${CARMOT_HOME}/${allSuitesDir}/baseline_overhead/build/SPEC2017/${machine}/baseline_overhead ${CARMOT_HOME}/results/current_machine/fig7/carmot/SPEC2017/${resultFile} ;
+  ./bin/carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_omp_overhead/build/SPEC2017/${machine}/carmot_omp_overhead_${suffix} ${CARMOT_HOME}/${allSuitesDir}/baseline_overhead/build/SPEC2017/${machine}/baseline_overhead ${CARMOT_HOME}/results/current_machine/fig7/carmot/SPEC2017/${resultFile} ;
 fi
 

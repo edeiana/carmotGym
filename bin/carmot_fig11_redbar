@@ -52,7 +52,8 @@ cd ${CARMOT_HOME}/${allSuitesDir} ;
 compileAndRunCARMOT "carmot_stats_overhead" ;
 
 # Copy results
+cd ${CARMOT_HOME} ;
 machine="`uname -n`" ;
 resultFile="overhead_redbars.txt" ;
-./carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_stats_overhead/build/PARSEC3/${machine}/carmot_stats_overhead ${CARMOT_HOME}/${allSuitesDir}/baseline_overhead/build/PARSEC3/${machine}/baseline_overhead ${CARMOT_HOME}/results/current_machine/fig11/carmot/PARSEC3/${resultFile} ;
+./bin/carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_stats_overhead/build/PARSEC3/${machine}/carmot_stats_overhead ${CARMOT_HOME}/${allSuitesDir}/baseline_overhead/build/PARSEC3/${machine}/baseline_overhead ${CARMOT_HOME}/results/current_machine/fig11/carmot/PARSEC3/${resultFile} ;
 
