@@ -32,7 +32,7 @@ function compileAndRunCARMOT {
   cd ${CARMOT_HOME}/carmot ;
   ./globalCompile_disable_directstate.sh ;
   popd ;
-  ./optimize PARSEC3 memorytool-referencecycles swaptions ;
+  ./optimize PARSEC3 memorytool-all swaptions ;
   
   ./run NAS ${1} all ; 
   ./run PARSEC3 ${1} blackscholes ;
