@@ -1,0 +1,38 @@
+#!/bin/bash -e
+
+THIS_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" ;
+CARMOT_HOME="${THIS_PATH}/.." ;
+
+runSPEC="0" ;
+if test -f ${CARMOT_HOME}/benchmarkSuites/SPEC2017.tar.gz ; then
+  runSPEC="1" ;
+fi
+
+function compileAndRun {
+  pushd . ;
+  cd ${1} ;
+  make ;
+
+  ./compile NAS ;
+  ./compile PARSEC3 ;
+  if [ ${runSPEC} == "1" ] ; then
+    ./compile SPEC2017 ;
+  fi
+
+  ./run NAS ${1} all; 
+  ./run PARSEC3 ${1} all; 
+  if [ ${runSPEC} == "1" ] ; then
+    ./run SPEC2017 ${1} all ;
+  fi
+
+  popd ;
+}
+
+prefixString="### CARMOT Gym: Fig7,10,11 baseline ###" ;
+echo "${prefixString}" ;
+
+allSuitesDir="all_benchmark_suites" ;
+cd ${CARMOT_HOME}/${allSuitesDir} ;
+
+compileAndRun "baseline_overhead" ;
+

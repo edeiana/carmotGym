@@ -1,0 +1,73 @@
+#!/bin/bash -e
+
+THIS_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" ;
+CARMOT_HOME="${THIS_PATH}/.." ;
+
+runSPEC="0" ;
+if test -f ${CARMOT_HOME}/benchmarkSuites/SPEC2017.tar.gz ; then
+  runSPEC="1" ;
+fi
+
+function compileAndRunCARMOT {
+  pushd . ;
+  cd ${1} ;
+  make ;
+  source setup.sh ${CARMOT_HOME}/carmot ;
+
+  ./compile NAS ;
+  ./compile PARSEC3 ;
+  if [ ${runSPEC} == "1" ] ; then
+    ./compile SPEC2017 ;
+  fi
+
+  ./optimize NAS memorytool-referencecycles all ;
+  if [ ${runSPEC} == "1" ] ; then
+    ./optimize SPEC2017 memorytool-referencecycles all ;
+  fi
+  ./optimize PARSEC3 memorytool-referencecycles blackscholes ;
+  ./optimize PARSEC3 memorytool-referencecycles canneal ;
+  ./optimize PARSEC3 memorytool-referencecycles fluidanimate ;
+  ./optimize PARSEC3 memorytool-referencecycles streamcluster ;
+  pushd . ;
+  cd ${CARMOT_HOME}/carmot ;
+  ./globalCompile_disable_directstate.sh ;
+  popd ;
+  ./optimize PARSEC3 memorytool-referencecycles swaptions ;
+  
+  ./run NAS ${1} all ; 
+  if [ ${runSPEC} == "1" ] ; then
+    ./run SPEC2017 ${1} all ;
+  fi
+  ./run PARSEC3 ${1} blackscholes ;
+  ./run PARSEC3 ${1} canneal ;
+  ./run PARSEC3 ${1} fluidanimate ;
+  ./run PARSEC3 ${1} streamcluster ;
+  ./run PARSEC3 ${1} swaptions ;
+  popd ;
+}
+
+prefixString="### CARMOT Gym: Fig10 red bars ###" ;
+echo "${prefixString}" ;
+
+cd ${CARMOT_HOME}/carmot ;
+source clean.sh ;
+source setup.sh ;
+source setup_env.sh ;
+./globalCompile.sh ;
+./pin_patch/pin_disable.sh ;
+
+allSuitesDir="all_benchmark_suites" ;
+cd ${CARMOT_HOME}/${allSuitesDir} ;
+
+compileAndRunCARMOT "carmot_sp_overhead" ;
+
+# Copy results
+machine="`uname -n`" ;
+resultFile="overhead_redbars.txt" ;
+./carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_sp_overhead/build/NAS/${machine}/carmot_sp_overhead ${CARMOT_HOME}/${allSuitesDir}/baseline_overhead/build/NAS/${machine}/baseline_overhead ${CARMOT_HOME}/results/current_machine/fig10/carmot/NAS/${resultFile} ;
+./carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_sp_overhead/build/PARSEC3/${machine}/carmot_sp_overhead ${CARMOT_HOME}/${allSuitesDir}/baseline_overhead/build/PARSEC3/${machine}/baseline_overhead ${CARMOT_HOME}/results/current_machine/fig10/carmot/PARSEC3/${resultFile} ;
+
+if [ ${runSPEC} == "1" ] ; then
+  ./carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_sp_overhead/build/SPEC2017/${machine}/carmot_sp_overhead ${CARMOT_HOME}/${allSuitesDir}/baseline_overhead/build/SPEC2017/${machine}/baseline_overhead ${CARMOT_HOME}/results/current_machine/fig10/carmot/SPEC2017/${resultFile} ;
+fi
+

@@ -1,0 +1,59 @@
+#!/bin/bash -e
+
+THIS_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" ;
+CARMOT_HOME="${THIS_PATH}/.." ;
+
+function compileAndRunCARMOT {
+  pushd . ;
+  cd ${1} ;
+  make ;
+  source setup.sh ${CARMOT_HOME}/carmot ;
+
+  ./compile PARSEC3 ;
+
+  pushd . ;
+  cd ${CARMOT_HOME}/carmot ;
+  ./globalCompile_disable_directstate.sh ;
+  ./memorytool_patch/mem2reg_enable.sh
+  popd ;
+  ./optimize PARSEC3 memorytool-stats bodytrack ;
+  pushd . ;
+  cd ${CARMOT_HOME}/carmot ;
+  ./memorytool_patch/mem2reg_disable.sh
+  popd ;
+  ./optimize PARSEC3 memorytool-stats fluidanimate ;
+  ./optimize PARSEC3 memorytool-stats streamcluster ;
+
+  pushd . ;
+  cd ${CARMOT_HOME}/carmot ;
+  ./globalCompile_disable_directstate.sh ;
+  popd ;
+  ./optimize PARSEC3 memorytool-stats swaptions ;
+ 
+  ./run PARSEC3 ${1} bodytrack ;
+  ./run PARSEC3 ${1} fluidanimate ;
+  ./run PARSEC3 ${1} streamcluster ;
+  ./run PARSEC3 ${1} swaptions ;
+  popd ;
+}
+
+prefixString="### CARMOT Gym: Fig11 red bars ###" ;
+echo "${prefixString}" ;
+
+cd ${CARMOT_HOME}/carmot ;
+source clean.sh ;
+source setup.sh ;
+source setup_env.sh ;
+./globalCompile.sh ;
+./pin_patch/pin_disable.sh ;
+
+allSuitesDir="all_benchmark_suites" ;
+cd ${CARMOT_HOME}/${allSuitesDir} ;
+
+compileAndRunCARMOT "carmot_stats_overhead" ;
+
+# Copy results
+machine="`uname -n`" ;
+resultFile="overhead_redbars.txt" ;
+./carmot_compute_speedup ${CARMOT_HOME}/${allSuitesDir}/carmot_stats_overhead/build/PARSEC3/${machine}/carmot_stats_overhead ${CARMOT_HOME}/${allSuitesDir}/baseline_overhead/build/PARSEC3/${machine}/baseline_overhead ${CARMOT_HOME}/results/current_machine/fig11/carmot/PARSEC3/${resultFile} ;
+
