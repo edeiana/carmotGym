@@ -37,9 +37,9 @@ ENV LIBTBBSO=/usr/lib/x86_64-linux-gnu
 USER cgo23ae
 WORKDIR /home/cgo23ae
 
+COPY --chown=cgo23ae ./LICENSE /home/cgo23ae/LICENSE
 COPY --chown=cgo23ae ./README.md /home/cgo23ae/README.md
 COPY --chown=cgo23ae ./bin /home/cgo23ae/bin
-COPY --chown=cgo23ae ./LICENSE /home/cgo23ae/LICENSE
 COPY --chown=cgo23ae ./results /home/cgo23ae/results
 COPY --chown=cgo23ae ./benchmarkSuites /home/cgo23ae/benchmarkSuites
 
