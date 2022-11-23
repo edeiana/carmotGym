@@ -1,0 +1,6 @@
+blackscholes 8553.520
+canneal 
+fluidanimate 
+streamcluster 531.415
+streamclassifier 531.415
+swaptions 1083.051
