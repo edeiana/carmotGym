@@ -35,14 +35,14 @@ function compileAndRunCARMOT {
   ./optimize PARSEC3 memorytool-all swaptions ;
 
   ./run NAS ${1} all ;
-  ./run NAS ${1} all ; 
-  if [ ${runSPEC} == "1" ] ; then
-    ./run SPEC2017 ${1} all ;
-  fi
   ./run PARSEC3 ${1} blackscholes ;
   ./run PARSEC3 ${1} canneal ;
   ./run PARSEC3 ${1} freqmine ;
   ./run PARSEC3 ${1} swaptions ;
+  if [ ${runSPEC} == "1" ] ; then
+    ./run SPEC2017 ${1} all ;
+  fi
+
   popd ;
 }
 
@@ -50,8 +50,6 @@ prefixString="### CARMOT Gym: Fig7 red bars ###" ;
 echo "${prefixString}" ;
 
 cd ${CARMOT_HOME}/carmot ;
-source clean.sh ;
-source setup.sh ;
 source setup_env.sh ;
 ./globalCompile.sh ;
 ./pin_patch/pin_disable.sh ;

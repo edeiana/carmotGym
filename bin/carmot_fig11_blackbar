@@ -36,6 +36,7 @@ function compileAndRunCARMOT {
   ./run PARSEC3 ${1}_${suffix} fluidanimate ;
   ./run PARSEC3 ${1}_${suffix} streamcluster ;
   ./run PARSEC3 ${1}_${suffix} swaptions ;
+
   popd ;
 }
 
@@ -43,8 +44,6 @@ prefixString="### CARMOT Gym: Fig11 black bars ###" ;
 echo "${prefixString}" ;
 
 cd ${CARMOT_HOME}/carmot ;
-source clean.sh ;
-source setup.sh ;
 source setup_env.sh ;
 ./globalCompile_disable_pin_clustercallstack_O3_dfa_onlyread_directstate.sh ;
 ./pin_patch/pin_enable.sh ;

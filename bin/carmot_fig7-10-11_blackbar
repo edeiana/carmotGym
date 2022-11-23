@@ -7,6 +7,7 @@ prefixString="### CARMOT Gym: overhead black bars ###" ;
 echo "${prefixString}" ;
 
 ${CARMOT_HOME}/bin/carmot_fig7-10-11_baseline ;
+
 ${CARMOT_HOME}/bin/carmot_fig7_blackbar ;
 ${CARMOT_HOME}/bin/carmot_fig10_blackbar ;
 ${CARMOT_HOME}/bin/carmot_fig11_blackbar ;

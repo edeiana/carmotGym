@@ -34,6 +34,7 @@ function compileAndRunCARMOT {
   ./run PARSEC3 ${1} fluidanimate ;
   ./run PARSEC3 ${1} streamcluster ;
   ./run PARSEC3 ${1} swaptions ;
+
   popd ;
 }
 
@@ -41,8 +42,6 @@ prefixString="### CARMOT Gym: Fig11 red bars ###" ;
 echo "${prefixString}" ;
 
 cd ${CARMOT_HOME}/carmot ;
-source clean.sh ;
-source setup.sh ;
 source setup_env.sh ;
 ./globalCompile.sh ;
 ./pin_patch/pin_disable.sh ;

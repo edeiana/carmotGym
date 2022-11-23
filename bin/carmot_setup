@@ -12,6 +12,9 @@ echo "${prefixString} Cloning carmot repo" ;
 carmotDir="carmot" ;
 if ! test -d ${carmotDir} ; then
   git clone https://github.com/edeiana/carmot.git ${carmotDir} ;
+  cd ${CARMOT_HOME}/${carmotDir} ;
+  source clean.sh ;
+  source setup.sh ;
 fi
  
 # Download the git repository
