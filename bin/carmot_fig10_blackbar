@@ -22,15 +22,15 @@ function compileAndRunCARMOT {
     ./compile SPEC2017 ;
   fi
 
-  ./optimize NAS memorytool-referencecycles all ;
+  ./optimize NAS memorytool-all all ;
   if [ ${runSPEC} == "1" ] ; then
-    ./optimize SPEC2017 memorytool-referencecycles nab_s ;
+    ./optimize SPEC2017 memorytool-all nab_s ;
   fi
-  ./optimize PARSEC3 memorytool-referencecycles blackscholes ;
-  #./optimize PARSEC3 memorytool-referencecycles canneal ;
-  #./optimize PARSEC3 memorytool-referencecycles fluidanimate ;
-  ./optimize PARSEC3 memorytool-referencecycles streamcluster ;
-  ./optimize PARSEC3 memorytool-referencecycles swaptions ;
+  ./optimize PARSEC3 memorytool-all blackscholes ;
+  #./optimize PARSEC3 memorytool-all canneal ;
+  #./optimize PARSEC3 memorytool-all fluidanimate ;
+  ./optimize PARSEC3 memorytool-all streamcluster ;
+  ./optimize PARSEC3 memorytool-all swaptions ;
   
   ./run NAS ${1}_${suffix} all ; 
   ./run PARSEC3 ${1}_${suffix} blackscholes ;

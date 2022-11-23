@@ -13,10 +13,10 @@ function compileAndRunCARMOT {
 
   ./compile PARSEC3 ;
 
-  #./optimize PARSEC3 memorytool-stats bodytrack ;
-  #./optimize PARSEC3 memorytool-stats fluidanimate ;
-  ./optimize PARSEC3 memorytool-stats streamcluster ;
-  ./optimize PARSEC3 memorytool-stats swaptions ;
+  #./optimize PARSEC3 memorytool-all bodytrack ;
+  #./optimize PARSEC3 memorytool-all fluidanimate ;
+  ./optimize PARSEC3 memorytool-all streamcluster ;
+  ./optimize PARSEC3 memorytool-all swaptions ;
  
   #./run PARSEC3 ${1}_${suffix} bodytrack ;
   #./run PARSEC3 ${1}_${suffix} fluidanimate ;
