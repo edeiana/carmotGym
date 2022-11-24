@@ -34,8 +34,8 @@ for elemTmp in `ls ${baseline_dir}/times_*.txt` ; do
 
   times_file="${times_dir}/${elem}" ;
   if ! test -f ${times_file} ; then
-    echo "WARNING: ${times_file} not found. Setting speedup to 0x." ;
-    speedup="0.0" ;
+    echo "WARNING: ${times_file} not found. Setting speedup to empty." ;
+    speedup="" ;
   else
     times_median=`cat ${times_file} | python3 -c 'from sys import stdin; import numpy as np; nums = [float(i) for i in stdin.read().split()]; print(np.median(nums))'` ;
     speedup=`echo "scale=3 ; ${baseline_median}/${times_median}" | bc` ;
@@ -43,8 +43,15 @@ for elemTmp in `ls ${baseline_dir}/times_*.txt` ; do
 
   output_string="${benchmark_name} ${speedup}" ;
   echo "${output_string}" >> ${output_file} ;
-
   echo "${output_string}" ;
+
+  # streamcluster and streamclassifier are the same for the purpose of CARMOT, the difference is in the STATS parallelization choices
+  if [ "${benchmark_name}" == "streamcluster" ] ; then
+    output_string="streamclassifier ${speedup}" ;
+    echo "${output_string}" >> ${output_file} ;
+    echo "${output_string}" ;
+  fi
+    
 done
 
 geomean=`cat ${output_file} | awk '{print $2}' | python3 -c 'from sys import stdin; from scipy.stats.mstats import gmean; nums = [float(i) for i in stdin.read().split()]; print(gmean(nums))'` ;
