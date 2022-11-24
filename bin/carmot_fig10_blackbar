@@ -52,6 +52,7 @@ cd ${CARMOT_HOME}/carmot ;
 source setup_env.sh ;
 ./globalCompile_disable_pin_clustercallstack_O3_dfa_onlyread_directstate.sh ;
 ./pin_patch/pin_enable.sh ;
+./memorytool_patch/mem2reg_disable.sh
 
 allSuitesDir="all_benchmark_suites" ;
 cd ${CARMOT_HOME}/${allSuitesDir} ;

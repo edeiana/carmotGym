@@ -54,6 +54,7 @@ cd ${CARMOT_HOME}/carmot ;
 source setup_env.sh ;
 ./globalCompile.sh ;
 ./pin_patch/pin_disable.sh ;
+./memorytool_patch/mem2reg_disable.sh
 
 allSuitesDir="all_benchmark_suites" ;
 cd ${CARMOT_HOME}/${allSuitesDir} ;
