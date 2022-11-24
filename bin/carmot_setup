@@ -42,7 +42,7 @@ fi
 source clean.sh ;
 source setup.sh ;
  
-# Download the git repository
+# Clone the benchmark suite git repos
 cd ${CARMOT_HOME} ;
 echo "${prefixString} Cloning benchmark suite repos" ;
 allSuitesDir="all_benchmark_suites" ;
