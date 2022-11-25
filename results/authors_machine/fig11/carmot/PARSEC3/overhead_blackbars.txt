@@ -1,5 +1,3 @@
-bodytrack 
-fluidanimate 
 streamcluster 531.415
 streamclassifier 531.415
 swaptions 475.841

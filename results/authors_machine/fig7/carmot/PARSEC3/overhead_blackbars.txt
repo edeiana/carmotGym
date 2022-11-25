@@ -1,4 +1,3 @@
 blackscholes 8553.520
-canneal 
 freqmine 805.970
 swaptions 1083.051
