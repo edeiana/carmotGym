@@ -24,21 +24,43 @@ fi
 
 rm -f ${output_file} ;
 mkdir -p `dirname ${output_file}` ;
+touch ${output_file} ;
+
+# No times files in baseline dir
+baselineNumTimesFiles=`ls -1 ${baseline_dir}/times_*.txt 2>/dev/null | wc -l` ;
+if [ "${baselineNumTimesFiles}" == "0" ] ; then
+  echo "WARNING: no time files found in ${baseline_dir}" ;
+  exit 0 ;
+fi
 
 for elemTmp in `ls ${baseline_dir}/times_*.txt` ; do
   elem=`basename ${elemTmp}` ;
   benchmark_name=`echo ${elem} | python3 -c 'from sys import stdin; import numpy as np; nums = [str(i) for i in stdin.read().split()]; print(nums[0].split("_", 1)[-1][:-4])'` ;
 
   baseline_file="${baseline_dir}/${elem}" ;
-  baseline_median=`cat ${baseline_file} | python3 -c 'from sys import stdin; import numpy as np; nums = [float(i) for i in stdin.read().split()]; print(np.median(nums))'` ;
+  baseline_median=`cat ${baseline_file} | python3 -c 'from sys import stdin; import numpy as np; nums = [float(i) for i in stdin.read().split() if (i.replace(".", "", 1).isdigit())]; print(np.median(nums)) if (len(nums) > 0) else print("");'` ;
+
+  # No valid baseline times, print name of the benchmark and move on
+  if [ "${baseline_median}" == "" ] ; then
+    speedup="no experiment data" ;
+    output_string="${benchmark_name} ${speedup}" ;
+    echo "${output_string}" >> ${output_file} ;
+    echo "${output_string}" ;
+    continue ;
+  fi
 
   times_file="${times_dir}/${elem}" ;
   if ! test -f ${times_file} ; then
     echo "WARNING: ${times_file} not found. Setting speedup to empty." ;
-    speedup="" ;
+    speedup="no baseline data file" ;
   else
-    times_median=`cat ${times_file} | python3 -c 'from sys import stdin; import numpy as np; nums = [float(i) for i in stdin.read().split()]; print(np.median(nums))'` ;
-    speedup=`echo "scale=3 ; ${baseline_median}/${times_median}" | bc` ;
+    times_median=`cat ${times_file} | python3 -c 'from sys import stdin; import numpy as np; nums = [float(i) for i in stdin.read().split() if (i.replace(".", "", 1).isdigit())]; print(np.median(nums)) if (len(nums) > 0) else print("");'` ;
+    # No valid times, print name of the benchmark and move on
+    if [ "${times_median}" == "" ] ; then
+      speedup="no baseline data" ;
+    else
+      speedup=`echo "scale=3 ; ${baseline_median}/${times_median}" | bc` ;
+    fi
   fi
 
   output_string="${benchmark_name} ${speedup}" ;
@@ -54,5 +76,5 @@ for elemTmp in `ls ${baseline_dir}/times_*.txt` ; do
     
 done
 
-geomean=`cat ${output_file} | awk '{print $2}' | python3 -c 'from sys import stdin; from scipy.stats.mstats import gmean; nums = [float(i) for i in stdin.read().split()]; print(gmean(nums))'` ;
-echo "geo. mean ${geomean}" ;
+#geomean=`cat ${output_file} | awk '{print $2}' | python3 -c 'from sys import stdin; from scipy.stats.mstats import gmean; nums = [float(i) for i in stdin.read().split()]; print(gmean(nums))'` ;
+#echo "geo. mean ${geomean}" ;
