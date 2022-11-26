@@ -1,0 +1,20 @@
+#!/bin/bash -e
+
+THIS_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" ;
+CARMOT_HOME="${THIS_PATH}/.." ;
+
+experimentsOutputFile="carmot_experiments_output.txt" ;
+
+prefixString="### CARMOT Gym: Experiments start to run now! ###" ;
+echo "${prefixString}" ;
+echo "Experiments progress can be found in ${CARMOT_HOME}/${experimentsOutputFile}" ;
+echo "You can check it with: $ tail -f ${CARMOT_HOME}/${experimentsOutputFile}" ;
+
+if [ "${CARMOT_FULL}" == "" ] ; then
+  echo "Minimal set of experiments running..." ;
+  ${CARMOT_HOME}/bin/carmot_minimal &> ${CARMOT_HOME}/${experimentsOutputFile} ;
+else
+  echo "Full set of experiments running..." ;
+  ${CARMOT_HOME}/bin/carmot_full &> ${CARMOT_HOME}/${experimentsOutputFile} ;
+fi
+

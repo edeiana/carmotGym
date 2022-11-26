@@ -40,7 +40,9 @@ function compileAndRunCARMOT {
   ./run PARSEC3 ${1} freqmine ;
   ./run PARSEC3 ${1} swaptions ;
   if [ ${runSPEC} == "1" ] ; then
-    ./run SPEC2017 ${1} all ;
+    #./run SPEC2017 ${1} lbm_s ;
+    ./run SPEC2017 ${1} nab_s ;
+    ./run SPEC2017 ${1} xz_s ;
   fi
 
   popd ;
