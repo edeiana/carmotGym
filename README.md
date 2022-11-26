@@ -137,7 +137,7 @@ If you are allowed to use SPEC2017 to evaluate this artifact you can do so by op
 $ podman ps
 
 Then, copy your SPEC2017 tar.gz archive from the host to the running podman image using:
-$ podman cp /path/to/your/SPEC/archive.tar.gz container_id:~/benchmarkSuites/SPEC2017.tar.gz
+$ podman cp /path/to/your/SPEC/archive.tar.gz container_id:/home/cgo23ae/benchmarkSuites/SPEC2017.tar.gz
 
 Note that your SPEC archive must be a tar.gz archive and the name of the SPEC archive copied into the podman image must be "SPEC2017.tar.gz" .
 Your SPEC tar.gz archive must contain a single directory called "SPEC2017" and its structure must be as follows:
