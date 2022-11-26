@@ -28,6 +28,18 @@ function compileAndRun {
   popd ;
 }
 
+function compileAndRunPthread {
+  pushd . ;
+  cd ${1} ;
+  make ;
+
+  ./compile PARSEC3 ;
+
+  ./run PARSEC3 ${1} all; 
+
+  popd ;
+}
+
 prefixString="### CARMOT Gym: Fig6 ###" ;
 echo "${prefixString}" ;
 
@@ -37,7 +49,7 @@ cd ${CARMOT_HOME}/${allSuitesDir} ;
 compileAndRun "baseline_speedup" ;
 compileAndRun "carmot_omp_speedup" ;
 compileAndRun "orig_omp_speedup" ;
-compileAndRun "orig_pthread_speedup" ;
+compileAndRunPthread "orig_pthread_speedup" ;
 
 # Copy results
 cd ${CARMOT_HOME} ;
