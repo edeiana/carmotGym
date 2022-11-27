@@ -29,7 +29,7 @@ COPY ./entrypoint.sh /opt/
 
 RUN chmod 755 /opt/entrypoint.sh
 
-RUN useradd --create-home --shell /bin/bash cgo23ae
+RUN useradd --create-home --shell /bin/bash cgo23ae && usermod -aG sudo cgo23ae
 
 ENV PATH=/usr/lib/llvm-9/bin/:$PATH
 ENV PATH=/usr/local/go/bin/:$PATH
