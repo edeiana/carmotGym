@@ -25,11 +25,11 @@ RUN pip3 install --upgrade pip && pip3 install numpy && pip3 install scipy && pi
 
 RUN cd /usr/bin && ln -s /usr/bin/cmake cmake3
 
-COPY ./entrypoint.sh /opt/
+#COPY ./entrypoint.sh /opt/
 
-RUN chmod 755 /opt/entrypoint.sh
+#RUN chmod 755 /opt/entrypoint.sh
 
-RUN useradd --create-home --shell /bin/bash cgo23ae && usermod -aG sudo cgo23ae
+RUN useradd --create-home --shell /bin/bash cgo23ae # && usermod -aG sudo cgo23ae
 
 ENV PATH=/usr/lib/llvm-9/bin/:$PATH
 ENV PATH=/usr/local/go/bin/:$PATH
@@ -45,4 +45,5 @@ COPY --chown=cgo23ae ./bin /home/cgo23ae/bin
 COPY --chown=cgo23ae ./results /home/cgo23ae/results
 COPY --chown=cgo23ae ./benchmarkSuites /home/cgo23ae/benchmarkSuites
 
-ENTRYPOINT ["/opt/entrypoint.sh"]
+#ENTRYPOINT ["/opt/entrypoint.sh"]
+RUN /bin/bash
