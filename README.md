@@ -4,7 +4,8 @@ This repository includes the artifact evaluation materials for the CARMOT CGO 20
 
 ## Artifact
 This artifact generates the main results of the paper shown in Figures 6, 7, 10, 11 in text format.
-The artifact is a podman image that runs Ubuntu 20.04 and already contains the NAS and PARSEC3 benchmarks suites (we cannot share SPEC CPU 2017 durectly, to include it see the corresponding section in this README.md).
+The artifact is a podman image that runs Ubuntu 20.04 and already contains the NAS and PARSEC3 benchmarks suites.
+We cannot share SPEC CPU 2017 directly, if you are allowed to include it, follow this [Section](/README.md#Adding-SPEC-CPU-2017-to-the-Podman-Container).
 
 ## Prerequisites 
 
@@ -17,7 +18,7 @@ This artifact requires a Linux-base machine with podman installed.
 To ensure Pin-related results are colleted correctly, the host machine must have ``/proc/sys/kernel/yama/ptrace_scope`` set to 0, because this value is shared with the podman container where the artifact runs.
 If ``/proc/sys/kernel/yama/ptrace_scope`` is not set to 0, do (as root):
 ```
-$ echo 0 > /proc/sys/kernel/yama/ptrace_scope
+# echo 0 > /proc/sys/kernel/yama/ptrace_scope
 ```
 Before running the podman container.
 Note that this value is reset to its default every time the machine is rebooted.
@@ -40,6 +41,7 @@ They consist of:
 2) The CARMOT overhead (red bars) in the OpenMP use case of Figure 7.
 3) The CARMOT overhead (red bars) in the C++ Smart Pointer use case of Figure 10.
 4) The CARMOT overhead (red bars) in the STATS use case of Figure 11.
+
 Adding SPEC CPU 2017 is optional.
 
 NOTE:
@@ -98,7 +100,6 @@ $ tail -f carmot_experiments_output.txt
 ### Where Results are Stored
 The results of the experiments will be placed under ``results/current_machine`` in the running podman container (note: do not close the container at this point until you look at the results, or you will lose them!).
 This directory has the following structure:
-
 ```
 results/current_machine/
 ├── fig10
@@ -164,9 +165,9 @@ Instead of comparing the absolute values, we recommend reviewers to check the va
 These two claims hold for all authors results (the results computed on the machine described in the paper: ``results/authors_result``, and the additional included results: ``results/additional_authors_machines``), even though the absolute values of speedup and overhead are different.
 
 For this reason, we encourage the reviewers to compute the Full set of results by setting the environment variable ``CARMOT_FULL`` to 1 prior to starting the experiments.
-If the reviewer is under time constraint, we suggest to reduce the ``CARMOT_NUM_RUNS``.
+If the reviewer is under time constraints, we suggest to reduce the ``CARMOT_NUM_RUNS``.
 
-## Adding SPEC2017 to the podman image
+## Adding SPEC CPU 2017 to the Podman Container
 If you are allowed to use SPEC CPU 2017 to evaluate this artifact, you can do so by opening a new shell on the host machine where the podman container is running and getting its ``CONTAINER_ID`` using:
 ```
 $ podman ps
@@ -207,7 +208,7 @@ In order to correctly run the SPEC CPU 2017 experiments your SPEC CPU 2017 archi
 Once ``SPEC2017.tar.gz`` is added to the podman container, the ``bin/carmot_experiments`` script will automatically generate results for SPEC CPU 2017 (on top of the already included NAS and PARSEC3).
 
 ## Additional Notes
-We have NOT tested the execution of these experiments under job scheduling systems like condor or slurm.
+We have NOT tested the execution of this artifact under job scheduling systems like condor or slurm.
 We recommend to run the podman container and its experiments directly on the host machine.
 Given the amount of time required to run the experiments, if you are running them in a remote machine, we strongly suggest to use a terminal multiplexer (e.g., tmux, screen) to avoid losing the progress made in case the connection is lost.
 
