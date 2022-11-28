@@ -28,20 +28,6 @@ cp ${CARMOT_HOME}/${carmotGymDir}/bin/carmot_minimal ./bin/ ;
 cp ${CARMOT_HOME}/${carmotGymDir}/bin/carmot_full ./bin/ ;
 cp ${CARMOT_HOME}/${carmotGymDir}/bin/carmot_clean ./bin/ ;
 
-# Cloining carmot repo
-cd ${CARMOT_HOME} ;
-echo "${prefixString} Cloning carmot repo" ;
-carmotDir="carmot" ;
-if ! test -d ${carmotDir} ; then
-  git clone https://github.com/edeiana/carmot.git ${carmotDir} ;
-  cd ${CARMOT_HOME}/${carmotDir} ;
-else
-  cd ${CARMOT_HOME}/${carmotDir} ;
-  git pull ;
-fi
-source clean.sh ;
-source setup.sh ;
- 
 # Clone the benchmark suite git repos
 cd ${CARMOT_HOME} ;
 echo "${prefixString} Cloning benchmark suite repos" ;
@@ -61,3 +47,18 @@ for elem in ${benchmarkSuiteReposList[@]} ; do
   fi
 done
 
+# Cloining carmot repo
+cd ${CARMOT_HOME} ;
+echo "${prefixString} Cloning carmot repo" ;
+carmotDir="carmot" ;
+if ! test -d ${carmotDir} ; then
+  git clone https://github.com/edeiana/carmot.git ${carmotDir} ;
+  cd ${CARMOT_HOME}/${carmotDir} ;
+else
+  cd ${CARMOT_HOME}/${carmotDir} ;
+  git pull ;
+fi
+source clean.sh ;
+source setup.sh ;
+cd ${CARMOT_HOME} ;
+ 

@@ -5,7 +5,7 @@ This repository includes the artifact evaluation materials for the CARMOT CGO 20
 ## Artifact
 This artifact generates the main results of the paper shown in Figures 6, 7, 10, 11 in text format.
 The artifact is a podman image that runs Ubuntu 20.04 and already contains the NAS and PARSEC3 benchmarks suites.
-We cannot share SPEC CPU 2017 directly, if the reviewer is allowed to include it, follow this [Section](/README.md#Adding-SPEC-CPU-2017-to-the-Podman-Container).
+We cannot share SPEC CPU 2017 directly, if the reviewer has access to SPEC CPU 2017, it can be included following this [Section](/README.md#Adding-SPEC-CPU-2017-to-the-Podman-Container).
 
 ## Prerequisites 
 
@@ -26,7 +26,7 @@ Note that this value is reset to its default every time the machine is rebooted.
 ### Hardware Prerequisites
 In order to evaluate this artifact correctly, an Intel multicore processor with shared memory is necessary.
 The required amount of main memory is 125 GiB to ensure all runs do not go to swap, which can increase the measured execution time of the experiments.
-To ensure the accuracy of execution time measuraments, all frequency scaling mechanisms (e.g., TurboBoost) have to be disabled and the machine must be idle (no other compute or memory intensive process can run on the machine during the execution of the experiments).
+To ensure the accuracy of execution time measurements, all frequency scaling mechanisms (e.g., TurboBoost) have to be disabled and the machine must be idle (no other compute or memory intensive process can run on the machine during the execution of the experiments).
 The required amount of disk space for the whole (fully unpacked) podman container is approximately 200 GB.
 
 ## Experiments and Results
@@ -45,11 +45,11 @@ They consist of:
 Adding SPEC CPU 2017 is optional.
 
 NOTE:
-Computing the Minimal results wihout SPEC CPU 2017 takes approximately 2 days.
+Computing the Minimal results wihout SPEC CPU 2017 takes approximately 2 days (one the machine used in the paper).
 Adding SPEC CPU 2017 increases the time to approximately 4 days.
 
 ### Full Results
-The Full set of results of the paper consists of the Minimal Results plus the Naive Approach black bars of Figures 7, 10, 11 of the paper.
+The Full set of results of the paper consists of the Minimal Results plus the Naive approach black bars of Figures 7, 10, 11 of the paper.
 Adding SPEC CPU 2017 is optional.
 
 NOTE:
@@ -211,6 +211,7 @@ Once ``SPEC2017.tar.gz`` is added to the podman container, the ``bin/carmot_expe
 ## Additional Notes
 We have NOT tested the execution of this artifact under job scheduling systems like condor or slurm.
 We recommend to run the podman container and its experiments directly on the host machine.
+
 Given the amount of time required to run the experiments, if a remote machine is used, we strongly suggest to use a terminal multiplexer (e.g., tmux, screen) to avoid losing the progress made in case the network connection is lost.
 
 Furthermore, the scripts provided to evaluate this artifact assume that experiments will be run one after the other sequentially, please do not run experiments in parallel or unexpeted behavior might happen.
