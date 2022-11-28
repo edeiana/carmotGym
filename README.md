@@ -3,17 +3,18 @@ This repository is designed to test CARMOT on benchmark suites.
 This repository includes the artifact evaluation materials for the CARMOT CGO 2023 paper: "Program State Element Characterization".
 
 ## Artifact
-This artifact generates four sets of results that correspond to the main results of the paper shown in Figures 6, 7, 10, 11.
-The artifact is a podman image that runs Ubuntu 20.04 and already contains the NAS and PARSEC3 benchmarks suites (we cannot share SPEC CPU 2017 durectly, to include it see the section below in this README.md).
+This artifact generates the main results of the paper shown in Figures 6, 7, 10, 11 in text format.
+The artifact is a podman image that runs Ubuntu 20.04 and already contains the NAS and PARSEC3 benchmarks suites (we cannot share SPEC CPU 2017 durectly, to include it see the corresponding section in this README.md).
 
 ## Prerequisites 
 
 ### Software Prerequisites
-We open sourced [CARMOT](https://github.com/edeiana/carmot.git), the [infrastructure](https://github.com/edeiana/wholeprogram_benchmarks.git) we built to evaluate CARMOT on several benchmark suites (e.g., NAS, PARSEC3, SPEC CPU 2017), and CARMOT's dependencies [NOELLE](https://github.com/arcana-lab/noelle.git) and [VIRGIL](https://github.com/arcana-lab/virgil.git).
+We open sourced [CARMOT](https://github.com/edeiana/carmot.git), the [infrastructure](https://github.com/edeiana/wholeprogram_benchmarks.git) we built to evaluate CARMOT on several benchmark suites (e.g., NAS, PARSEC3, SPEC CPU 2017), and CARMOT's dependencies [NOELLE](https://github.com/arcana-lab/noelle.git), [VIRGIL](https://github.com/arcana-lab/virgil.git).
 This artifact will download all necessary software dependencies by cloning the open-sourced repositories (from GitHub) that are not already included within the podman image.
 Please make sure to have a network connection when running the artifact.
+
 This artifact requires a Linux-base machine with podman installed.
-The host machine where the podman container will run must have /proc/sys/kernel/yama/ptrace_scope set to 0, because this value is shared with the podman container where the artifact runs.
+The host machine where the podman container will run must have ``/proc/sys/kernel/yama/ptrace_scope`` set to 0, because this value is shared with the podman container where the artifact runs.
 If /proc/sys/kernel/yama/ptrace_scope is not set to 0, do (as root):
 $ echo 0 > /proc/sys/kernel/yama/ptrace_scope
 Before running the podman container.
@@ -81,6 +82,7 @@ $ tail -f carmot_experiments_output.txt
 
 The results of the experiments will be placed under results/current_machine in the running podman container (note: do not close the container at this point until you look at the results, or you will lose them!).
 This directory has the following structure:
+
 ```
 results/current_machine/
 ├── fig10
@@ -157,27 +159,30 @@ $ podman cp /path/to/your/SPEC/archive.tar.gz container_id:/home/cgo23ae/benchma
 
 Note that your SPEC archive must be a tar.gz archive and the name of the SPEC archive copied into the podman image must be "SPEC2017.tar.gz" .
 Your SPEC tar.gz archive must contain a single directory called "SPEC2017" and its structure must be as follows:
-SPEC2017/
-|-- bin
-|-- cshrc
-|-- Docs
-|-- Docs.txt
-|-- install_archives
-|-- install.bat
-|-- install.sh
-|-- LICENSE
-|-- LICENSE.txt
-|-- MANIFEST
-|-- PTDaemon
-|-- README
-|-- README.txt
-|-- redistributable_sources
-|-- Revisions
-|-- shrc
-|-- shrc.bat
-|-- tools
-|-- uninstall.sh
-|-- version.txt
+
+```
+SPEC2017
+├── bin
+├── cshrc
+├── Docs
+├── Docs.txt
+├── install_archives
+├── install.bat
+├── install.sh
+├── LICENSE
+├── LICENSE.txt
+├── MANIFEST
+├── PTDaemon
+├── README
+├── README.txt
+├── redistributable_sources
+├── Revisions
+├── shrc
+├── shrc.bat
+├── tools
+├── uninstall.sh
+└── version.txt
+```
 
 In order to correctly run the SPEC2017 experiments your SPEC archive must be complete with both the source code of all benchmarks (speed and rate) and all inputs (test, train, reference), otherwise unexpected errors might happen.
 Once SPEC2017.tar.gz is added to the podman image, the bin/carmot_experiments script will automatically generate results for SPEC2017 (on top of the already included NAS and PARSEC3).
