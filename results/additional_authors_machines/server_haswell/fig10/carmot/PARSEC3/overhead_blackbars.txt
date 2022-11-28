@@ -1,0 +1,4 @@
+blackscholes 248.857
+streamcluster 931.809
+streamclassifier 931.809
+swaptions 748.166

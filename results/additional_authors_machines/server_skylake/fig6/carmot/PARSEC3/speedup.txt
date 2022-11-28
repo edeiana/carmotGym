@@ -1,0 +1,4 @@
+blackscholes 48.068
+canneal 3.445
+freqmine 20.251
+swaptions 33.996

@@ -1,0 +1,3 @@
+streamcluster 2298.625
+streamclassifier 2298.625
+swaptions 1208.153

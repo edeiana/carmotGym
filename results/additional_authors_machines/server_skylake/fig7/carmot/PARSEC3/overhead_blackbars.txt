@@ -1,0 +1,3 @@
+blackscholes 1950.933
+freqmine 520.647
+swaptions 837.615

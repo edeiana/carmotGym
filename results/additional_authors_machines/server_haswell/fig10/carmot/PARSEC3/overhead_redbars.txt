@@ -1,0 +1,6 @@
+blackscholes 1.772
+canneal 26.116
+fluidanimate 2.333
+streamcluster 2.000
+streamclassifier 2.000
+swaptions 124.111

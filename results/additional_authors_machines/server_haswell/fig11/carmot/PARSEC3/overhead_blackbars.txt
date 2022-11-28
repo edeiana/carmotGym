@@ -1,0 +1,3 @@
+streamcluster 1987.523
+streamclassifier 1987.523
+swaptions 1049.111

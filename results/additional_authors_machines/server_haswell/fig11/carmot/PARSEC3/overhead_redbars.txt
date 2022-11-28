@@ -1,0 +1,5 @@
+bodytrack 73.000
+fluidanimate 108.428
+streamcluster 744.363
+streamclassifier 744.363
+swaptions 319.666

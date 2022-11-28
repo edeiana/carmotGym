@@ -1,0 +1,2 @@
+blackscholes 47.339
+freqmine 20.415
