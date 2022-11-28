@@ -22,6 +22,7 @@ cp ${CARMOT_HOME}/${carmotGymDir}/README.md . ;
 cp ${CARMOT_HOME}/${carmotGymDir}/benchmarkSuites/README ./benchmarkSuites/ ;
 cp ${CARMOT_HOME}/${carmotGymDir}/results/README ./results/ ;
 cp -r ${CARMOT_HOME}/${carmotGymDir}/results/authors_machine ./results/ ;
+cp -r ${CARMOT_HOME}/${carmotGymDir}/results/additional_authors_machines ./results/ ;
 cp ${CARMOT_HOME}/${carmotGymDir}/bin/carmot_fig* ./bin/ ;
 cp ${CARMOT_HOME}/${carmotGymDir}/bin/carmot_compute_speedup ./bin/ ;
 cp ${CARMOT_HOME}/${carmotGymDir}/bin/carmot_minimal ./bin/ ;
